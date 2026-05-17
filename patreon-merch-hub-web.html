@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patreon — E-Commerce Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0c0c12;
+  --surface: #13131c;
+  --surface2: #1a1a26;
+  --surface3: #21212f;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.1);
+  --border3: rgba(255,255,255,0.16);
+  --purple: #9333ea;
+  --purple-light: #a855f7;
+  --purple-dim: rgba(147,51,234,0.12);
+  --purple-glow: rgba(147,51,234,0.06);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.1);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.1);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.1);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.1);
+  --text: #eeeef5;
+  --text-dim: rgba(238,238,245,0.65);
+  --text-muted: rgba(238,238,245,0.38);
+  --sidebar-w: 240px;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 100px;
+  --transition: 0.18s ease;
+}
+
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; overflow: hidden; }
+
+/* ── LAYOUT ── */
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 0.5px solid var(--border2);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 0 0 16px;
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 20px 20px;
+  border-bottom: 0.5px solid var(--border);
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: var(--purple);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 14px; color: white;
+  flex-shrink: 0;
+}
+.logo-text { font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
+.logo-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.nav-section { padding: 16px 12px 8px; }
+.nav-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; padding: 0 8px; margin-bottom: 6px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all var(--transition);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
+.nav-item:hover { background: var(--surface2); color: var(--text-dim); }
+.nav-item.active { background: var(--purple-dim); color: var(--purple-light); }
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 3px;
+  background: var(--purple);
+  border-radius: 0 2px 2px 0;
+}
+.nav-item svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; flex-shrink: 0; }
+.nav-badge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--purple);
+  color: white;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+}
+
+.sidebar-creator {
+  margin-top: auto;
+  padding: 12px 14px;
+  margin-left: 12px; margin-right: 12px;
+  background: var(--surface2);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.creator-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), #6d28d9);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 12px;
+  flex-shrink: 0;
+}
+.creator-name { font-size: 13px; font-weight: 600; }
+.creator-handle { font-size: 11px; color: var(--text-muted); }
+.creator-chevron { margin-left: auto; color: var(--text-muted); }
+.creator-chevron svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ── MAIN ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 58px;
+  border-bottom: 0.5px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.page-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.page-crumb { font-size: 13px; color: var(--text-muted); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition);
+}
+.btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+.btn-primary { background: var(--purple); color: white; box-shadow: 0 2px 12px rgba(147,51,234,0.35); }
+.btn-primary:hover { background: var(--purple-light); box-shadow: 0 4px 18px rgba(147,51,234,0.5); }
+.btn-ghost { background: var(--surface2); color: var(--text-dim); border: 0.5px solid var(--border2); }
+.btn-ghost:hover { background: var(--surface3); border-color: var(--border3); }
+.btn-icon-only { width: 36px; height: 36px; padding: 0; justify-content: center; background: var(--surface2); border: 0.5px solid var(--border2); color: var(--text-dim); border-radius: var(--radius-sm); }
+.btn-icon-only:hover { background: var(--surface3); }
+.btn-icon-only svg { width: 16px; height: 16px; }
+
+.notif-btn { position: relative; }
+.notif-dot { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; background: var(--red); border-radius: 50%; border: 1.5px solid var(--surface); }
+
+/* ── CONTENT ── */
+.content { flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border2) transparent; }
+.content::-webkit-scrollbar { width: 6px; }
+.content::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+.page { display: none; padding: 28px; animation: fadeIn 0.22s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── COMMON COMPONENTS ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 9px; border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
+}
+.badge-purple { background: var(--purple-dim); color: var(--purple-light); }
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-amber { background: var(--amber-dim); color: var(--amber); }
+.badge-red { background: var(--red-dim); color: var(--red); }
+.badge-blue { background: var(--blue-dim); color: var(--blue); }
+
+.card {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; }
+.card-body { padding: 20px; }
+
+/* ─────────────────────────
+   PAGE: DASHBOARD
+───────────────────────── */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(147,51,234,0.5), transparent);
+}
+.stat-icon {
+  width: 36px; height: 36px;
+  background: var(--purple-dim);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+}
+.stat-icon svg { width: 18px; height: 18px; stroke: var(--purple-light); fill: none; stroke-width: 1.8; }
+.stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+.stat-value { font-family: var(--font-display); font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+.stat-change { font-size: 12px; }
+.up { color: var(--green); }
+.down { color: var(--red); }
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.chart-wrap { padding: 20px; }
+.chart-area { position: relative; height: 180px; margin-top: 16px; }
+.chart-svg { width: 100%; height: 100%; overflow: visible; }
+
+.chip-group { display: flex; gap: 6px; }
+.chip {
+  font-size: 11px; padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: 0.5px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.chip.active { background: var(--purple-dim); border-color: rgba(147,51,234,0.3); color: var(--purple-light); }
+
+.drop-live-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.drop-live-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.live-pip { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 1.6s infinite; flex-shrink: 0; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
+.drop-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+.drop-timer { font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing: 0.04em; color: var(--amber); margin: 10px 0 6px; }
+.drop-progress { height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+.drop-fill { height: 100%; background: var(--purple); border-radius: 3px; }
+.drop-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); }
+
+.products-mini { display: flex; flex-direction: column; gap: 1px; }
+.product-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 0.5px solid var(--border);
+  transition: background var(--transition);
+  cursor: pointer;
+}
+.product-row:last-child { border-bottom: none; }
+.product-row:hover { background: var(--surface2); }
+.product-thumb {
+  width: 42px; height: 42px;
+  border-radius: 9px;
+  background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  border: 0.5px solid var(--border2);
+  flex-shrink: 0;
+}
+.product-info { flex: 1; min-width: 0; }
+.product-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.product-meta { font-size: 11px; color: var(--text-muted); }
+.product-right { text-align: right; flex-shrink: 0; }
+.product-price { font-size: 14px; font-weight: 700; font-family: var(--font-display); }
+.product-sold { font-size: 11px; color: var(--text-muted); }
+
+.promo-banner {
+  background: var(--purple-dim);
+  border: 0.5px solid rgba(147,51,234,0.25);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 16px;
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-bottom: 20px;
+}
+.promo-banner:hover { background: rgba(147,51,234,0.18); }
+.promo-icon { font-size: 28px; flex-shrink: 0; }
+.promo-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: #c084fc; margin-bottom: 2px; }
+.promo-desc { font-size: 12px; color: rgba(192,132,252,0.65); }
+.promo-arrow { margin-left: auto; color: var(--purple-light); }
+.promo-arrow svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ─────────────────────────
+   PAGE: PRODUCTS
+───────────────────────── */
+.products-toolbar {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.search-input {
+  flex: 1;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  max-width: 320px;
+}
+.search-input svg { width: 15px; height: 15px; stroke: var(--text-muted); fill: none; stroke-width: 1.8; flex-shrink: 0; }
+.search-input input { background: none; border: none; outline: none; color: var(--text); font-size: 13px; font-family: var(--font-body); flex: 1; }
+.search-input input::placeholder { color: var(--text-muted); }
+
+.filter-pills { display: flex; gap: 8px; flex: 1; }
+
+.products-table { width: 100%; border-collapse: collapse; }
+.products-table th {
+  text-align: left;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-bottom: 0.5px solid var(--border2);
+  background: var(--surface);
+  position: sticky; top: 0; z-index: 1;
+}
+.products-table td {
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--border);
+  vertical-align: middle;
+}
+.products-table tr:hover td { background: var(--surface2); }
+.products-table tr:last-child td { border-bottom: none; }
+
+.toggle-pill {
+  width: 34px; height: 19px;
+  border-radius: 10px;
+  background: var(--purple);
+  position: relative;
+  cursor: pointer;
+  transition: background var(--transition);
+  display: inline-block;
+}
+.toggle-pill::after {
+  content: '';
+  position: absolute;
+  width: 15px; height: 15px;
+  background: white;
+  border-radius: 50%;
+  top: 2px; right: 2px;
+  transition: transform var(--transition);
+}
+.toggle-pill.off { background: var(--surface3); }
+.toggle-pill.off::after { right: auto; left: 2px; }
+
+.bar-mini { width: 80px; height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; margin-top: 5px; }
+.bar-mini-fill { height: 100%; background: var(--purple); border-radius: 3px; }
+
+/* ─────────────────────────
+   PAGE: ADD MERCH (WIZARD)
+───────────────────────── */
+.wizard-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  max-width: 960px;
+}
+
+.wizard-steps-panel {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  height: fit-content;
+  position: sticky;
+  top: 0;
+}
+.wizard-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--border);
+  cursor: pointer;
+}
+.wizard-step-item:last-child { border-bottom: none; }
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+.wizard-step-item.done .step-num { background: var(--green); border-color: var(--green); color: white; }
+.wizard-step-item.active .step-num { background: var(--purple); border-color: var(--purple); color: white; }
+.step-label { font-size: 13px; font-weight: 600; color: var(--text-muted); transition: color var(--transition); }
+.step-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.wizard-step-item.active .step-label { color: var(--text); }
+.wizard-step-item.done .step-label { color: var(--text-dim); }
+
+.wizard-main { display: flex; flex-direction: column; gap: 16px; }
+.wizard-panel {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+.wizard-panel-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+.wizard-panel-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+.type-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.type-card {
+  background: var(--surface2);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.type-card:hover { border-color: var(--border3); background: var(--surface3); }
+.type-card.selected { border-color: var(--purple); background: var(--purple-dim); }
+.type-card-icon { font-size: 32px; margin-bottom: 12px; }
+.type-card-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.type-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+.type-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 10px; padding: 3px 9px; border-radius: var(--radius-pill); background: var(--surface3); color: var(--text-dim); border: 0.5px solid var(--border); }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { margin-bottom: 18px; }
+.form-group.span2 { grid-column: 1 / -1; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 7px; }
+.form-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition);
+  -webkit-appearance: none;
+}
+.form-input:focus { border-color: var(--purple); }
+.form-input::placeholder { color: var(--text-muted); }
+select.form-input { cursor: pointer; }
+textarea.form-input { resize: vertical; min-height: 80px; }
+
+.color-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.color-dot {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all var(--transition);
+}
+.color-dot.selected { transform: scale(1.18); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px white; }
+
+.size-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.size-chip {
+  padding: 7px 15px;
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  background: var(--surface2);
+  color: var(--text-dim);
+  transition: all var(--transition);
+}
+.size-chip.selected { border-color: var(--purple); background: var(--purple-dim); color: var(--purple-light); }
+
+.upload-zone {
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--surface2);
+}
+.upload-zone:hover { border-color: var(--purple); background: var(--purple-glow); }
+.upload-icon { font-size: 36px; margin-bottom: 10px; }
+.upload-text { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.upload-hint { font-size: 12px; color: var(--text-muted); }
+
+.preview-box {
+  background: var(--surface2);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+}
+.preview-mockup { font-size: 80px; margin-bottom: 8px; }
+.preview-label { font-size: 12px; color: var(--text-muted); }
+
+.tier-grid { display: flex; flex-direction: column; gap: 8px; }
+.tier-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: var(--surface2);
+  transition: all var(--transition);
+}
+.tier-option:hover { border-color: var(--border3); }
+.tier-option.selected { border-color: var(--purple); background: var(--purple-dim); }
+.tier-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.tier-name { font-size: 13px; font-weight: 600; flex: 1; }
+.tier-price { font-size: 12px; color: var(--text-muted); }
+.tier-radio {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.tier-option.selected .tier-radio { background: var(--purple); border-color: var(--purple); }
+.tier-option.selected .tier-radio::after { content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; display: block; }
+
+.switch-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface2);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+.switch-info { flex: 1; }
+.switch-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.switch-desc { font-size: 11px; color: var(--text-muted); }
+.big-toggle { width: 42px; height: 23px; border-radius: 12px; background: var(--surface3); position: relative; cursor: pointer; transition: background var(--transition); flex-shrink: 0; }
+.big-toggle.on { background: var(--purple); }
+.big-toggle::after { content: ''; position: absolute; width: 17px; height: 17px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: transform var(--transition); }
+.big-toggle.on::after { transform: translateX(19px); }
+
+.review-table { width: 100%; }
+.review-table tr td { padding: 10px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+.review-table tr:last-child td { border-bottom: none; }
+.review-table td:first-child { color: var(--text-muted); width: 160px; }
+.review-table td:last-child { font-weight: 500; }
+
+.wizard-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ─────────────────────────
+   PAGE: ORDERS
+───────────────────────── */
+.orders-tabs { display: flex; gap: 0; border-bottom: 0.5px solid var(--border2); margin-bottom: 20px; }
+.orders-tab {
+  padding: 10px 18px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.orders-tab.active { color: var(--purple-light); border-bottom-color: var(--purple); }
+
+.orders-table { width: 100%; border-collapse: collapse; }
+.orders-table th {
+  text-align: left;
+  font-size: 11px; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600;
+  padding: 10px 16px;
+  border-bottom: 0.5px solid var(--border2);
+  background: var(--surface);
+}
+.orders-table td { padding: 14px 16px; border-bottom: 0.5px solid var(--border); vertical-align: middle; }
+.orders-table tr:hover td { background: var(--surface2); cursor: pointer; }
+
+.tracking-steps { display: flex; align-items: center; gap: 4px; }
+.track-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--surface3); border: 1.5px solid var(--border2); flex-shrink: 0; }
+.track-dot.done { background: var(--purple); border-color: var(--purple); }
+.track-dot.current { background: var(--amber); border-color: var(--amber); }
+.track-line { width: 18px; height: 2px; background: var(--border2); flex-shrink: 0; }
+.track-line.done { background: var(--purple); }
+
+/* ─────────────────────────
+   PAGE: INSIGHTS
+───────────────────────── */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.insights-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.kpi-value { font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+.kpi-sub { font-size: 12px; color: var(--text-muted); }
+.kpi-bar { height: 4px; background: var(--surface3); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+.kpi-bar-fill { height: 100%; background: var(--purple); border-radius: 2px; }
+
+.top-list { display: flex; flex-direction: column; }
+.top-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 0.5px solid var(--border);
+}
+.top-row:last-child { border-bottom: none; }
+.top-rank { font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--text-muted); width: 24px; }
+.top-thumb { width: 40px; height: 40px; border-radius: 9px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 18px; border: 0.5px solid var(--border2); flex-shrink: 0; }
+.top-name { font-size: 13px; font-weight: 600; }
+.top-units { font-size: 11px; color: var(--text-muted); }
+.top-rev { font-family: var(--font-display); font-size: 15px; font-weight: 800; color: var(--green); margin-left: auto; }
+
+.bar-chart { display: flex; flex-direction: column; gap: 12px; padding: 20px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; text-align: right; }
+.bar-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; }
+.bar-val { font-size: 12px; font-weight: 600; width: 44px; flex-shrink: 0; }
+
+/* ── SUCCESS ── */
+.success-wrap {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 400px; text-align: center; padding: 40px;
+}
+.success-check {
+  width: 80px; height: 80px;
+  background: var(--green-dim);
+  border: 2px solid var(--green);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+  margin-bottom: 24px;
+  animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes pop { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.success-title { font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 10px; }
+.success-desc { font-size: 14px; color: var(--text-muted); max-width: 360px; line-height: 1.7; margin-bottom: 30px; }
+.success-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 20px 28px;
+  text-align: left;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+.success-row { display: flex; justify-content: space-between; padding: 7px 0; font-size: 13px; border-bottom: 0.5px solid var(--border); }
+.success-row:last-child { border-bottom: none; }
+.success-row .lbl { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">P</div>
+      <div>
+        <div class="logo-text">PATREON</div>
+        <div class="logo-sub">E-Commerce Hub</div>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Creator</div>
+      <button class="nav-item active" id="nav-dashboard" onclick="nav('dashboard')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" id="nav-products" onclick="nav('products')">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
+        Products
+        <span class="nav-badge">8</span>
+      </button>
+      <button class="nav-item" id="nav-orders" onclick="nav('orders')">
+        <svg viewBox="0 0 24 24"><path d="M9 17H5a2 2 0 0 0-2 2v.5M9 17h6M9 17V7m6 10H5M15 17v-6m0 6v2a2 2 0 0 0 2 2h.5M5 7l3-3 3 3M5 7h10"/></svg>
+        Orders
+        <span class="nav-badge" style="background:var(--amber)">12</span>
+      </button>
+      <button class="nav-item" id="nav-insights" onclick="nav('insights')">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Insights
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Tools</div>
+      <button class="nav-item" onclick="nav('add-merch')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+        Add Merch
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M10 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7l-4-4z"/><path d="M14 3v4h4"/></svg>
+        Merch Studio
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Membership Tiers
+      </button>
+    </div>
+
+    <div class="sidebar-creator">
+      <div class="creator-avatar">DK</div>
+      <div>
+        <div class="creator-name">darkwave_DK</div>
+        <div class="creator-handle">329k members</div>
+      </div>
+      <div class="creator-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="page-title" id="page-title">Creator Studio</div>
+        <div class="page-crumb" id="page-crumb" style="color:var(--text-muted)"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Search
+        </button>
+        <button class="btn btn-icon-only notif-btn">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="notif-dot"></div>
+        </button>
+        <button class="btn btn-primary" onclick="nav('add-merch')">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          New Drop
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ── DASHBOARD ── -->
+      <div id="page-dashboard" class="page active">
+        <div class="dash-stats">
+          <div class="stat-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="stat-label">Today's Profit</div>
+            <div class="stat-value">€1,245</div>
+            <div class="stat-change up">↑ +12% vs yesterday</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+            <div class="stat-label">Pending Payout</div>
+            <div class="stat-value">€6,420</div>
+            <div class="stat-change" style="color:var(--text-muted)">Payout May 20</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+            <div class="stat-label">Total Orders</div>
+            <div class="stat-value">347</div>
+            <div class="stat-change up">↑ 38 new today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+            <div class="stat-label">Member Conversion</div>
+            <div class="stat-value">23.7%</div>
+            <div class="stat-change up">↑ +3.2pp this month</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Weekly Sales Trend</div>
+              <div class="chip-group">
+                <div class="chip active">7 days</div>
+                <div class="chip">30 days</div>
+                <div class="chip">90 days</div>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-area">
+                <svg class="chart-svg" viewBox="0 0 560 160" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#9333ea" stop-opacity="0.2"/>
+                      <stop offset="100%" stop-color="#9333ea" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,130 L80,100 L160,90 L240,80 L320,35 L400,60 L480,50 L560,40" fill="none" stroke="#9333ea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M0,130 L80,100 L160,90 L240,80 L320,35 L400,60 L480,50 L560,40 L560,160 L0,160 Z" fill="url(#g1)"/>
+                  <circle cx="80" cy="100" r="4" fill="#9333ea"/>
+                  <circle cx="160" cy="90" r="4" fill="#9333ea"/>
+                  <circle cx="240" cy="80" r="4" fill="#9333ea"/>
+                  <circle cx="320" cy="35" r="5" fill="#a855f7"/>
+                  <circle cx="400" cy="60" r="4" fill="#9333ea"/>
+                  <circle cx="480" cy="50" r="4" fill="#9333ea"/>
+                  <circle cx="560" cy="40" r="4" fill="#9333ea"/>
+                  <text x="40" y="155" fill="rgba(238,238,245,0.35)" font-size="11" text-anchor="middle" font-family="Outfit,sans-serif">Mon</text>
+                  <text x="120" y="155" fill="rgba(238,238,245,0.35)" font-size="11" text-anchor="middle" font-family="Outfit,sans-serif">Tue</text>
+                  <text x="200" y="155" fill="rgba(238,238,245,0.35)" font-size="11" text-anchor="middle" font-family="Outfit,sans-serif">Wed</text>
+                  <text x="280" y="155" fill="rgba(238,238,245,0.35)" font-size="11" text-anchor="middle" font-family="Outfit,sans-serif">Thu</text>
+                  <text x="360" y="155" fill="rgba(238,238,245,0.35)" font-size="11" text-anchor="middle" font-family="Outfit,sans-serif">Fri</text>
+                  <text x="440" y="155" fill="rgba(238,238,245,0.35)" font-size="11" text-anchor="middle" font-family="Outfit,sans-serif">Sat</text>
+                  <text x="520" y="155" fill="rgba(238,238,245,0.35)" font-size="11" text-anchor="middle" font-family="Outfit,sans-serif">Sun</text>
+                  <text x="0" y="38" fill="rgba(238,238,245,0.25)" font-size="10" font-family="Outfit,sans-serif">€2.5k</text>
+                  <text x="0" y="88" fill="rgba(238,238,245,0.25)" font-size="10" font-family="Outfit,sans-serif">€1.5k</text>
+                  <text x="0" y="138" fill="rgba(238,238,245,0.25)" font-size="10" font-family="Outfit,sans-serif">€0</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="drop-live-card">
+              <div class="drop-live-header">
+                <div class="live-pip"></div>
+                <div class="drop-name">Summer Exclusive Drop</div>
+                <span class="badge badge-amber" style="margin-left:auto">Tier 3+</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Time remaining</div>
+              <div class="drop-timer" id="drop-timer">11:42:07</div>
+              <div class="drop-progress"><div class="drop-fill" style="width:67%"></div></div>
+              <div class="drop-meta"><span>134 / 200 sold</span><span>67%</span></div>
+            </div>
+
+            <div class="promo-banner">
+              <div class="promo-icon">🎁</div>
+              <div>
+                <div class="promo-title">Boost sales with Tier Rewards</div>
+                <div class="promo-desc">Create exclusive merch for your top fans.</div>
+              </div>
+              <div class="promo-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Active Products</div>
+            <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="nav('products')">View all →</button>
+          </div>
+          <div class="products-mini">
+            <div class="product-row">
+              <div class="product-thumb">🧥</div>
+              <div class="product-info">
+                <div class="product-name">Midnight Hoodie</div>
+                <div class="product-meta">5 Colors · 6 Sizes</div>
+              </div>
+              <span class="badge badge-purple">⭐ Best Seller</span>
+              <div class="product-right" style="margin-left:16px">
+                <div class="product-price">€59.99</div>
+                <div class="product-sold">312 sold</div>
+              </div>
+              <div style="margin-left:16px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)">
+                <div class="toggle-pill"></div>Tier-Lock
+              </div>
+            </div>
+            <div class="product-row">
+              <div class="product-thumb">🎨</div>
+              <div class="product-info">
+                <div class="product-name">Archive Sticker Pack</div>
+                <div class="product-meta">10 Designs</div>
+              </div>
+              <span class="badge badge-green">POD Active</span>
+              <div class="product-right" style="margin-left:16px">
+                <div class="product-price">€12.99</div>
+                <div class="product-sold">∞ Unlimited</div>
+              </div>
+              <div style="margin-left:16px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)">
+                <div class="toggle-pill off"></div>Tier-Lock
+              </div>
+            </div>
+            <div class="product-row">
+              <div class="product-thumb">☕</div>
+              <div class="product-info">
+                <div class="product-name">Logo Mug</div>
+                <div class="product-meta">2 Colors</div>
+              </div>
+              <span class="badge badge-amber">Low Stock</span>
+              <div class="product-right" style="margin-left:16px">
+                <div class="product-price">€24.99</div>
+                <div class="product-sold">89 sold</div>
+              </div>
+              <div style="margin-left:16px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)">
+                <div class="toggle-pill off"></div>Tier-Lock
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PRODUCTS ── -->
+      <div id="page-products" class="page">
+        <div class="products-toolbar">
+          <div class="search-input">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input placeholder="Search products..." />
+          </div>
+          <div class="filter-pills">
+            <div class="chip active">All (8)</div>
+            <div class="chip">Clothing</div>
+            <div class="chip">Accessories</div>
+            <div class="chip">Stickers</div>
+            <div class="chip">Digital</div>
+          </div>
+          <button class="btn btn-primary" onclick="nav('add-merch')">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            Add Product
+          </button>
+        </div>
+
+        <div class="card">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Sold</th>
+                <th>Revenue</th>
+                <th>Tier-Lock</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[
+                ['🧥','Midnight Hoodie','Clothing','badge-purple','⭐ Best Seller','€59.99','312','€18,716',true],
+                ['🎨','Archive Sticker Pack','Accessories','badge-green','POD Active','€12.99','489','€6,352',false],
+                ['☕','Logo Mug','Accessories','badge-amber','Low Stock','€24.99','89','€2,224',false],
+                ['📔','Notebook A5','Stationery','badge-green','In Stock','€18.99','54','€1,025',false],
+                ['👕','Sunset Tee','Clothing','badge-blue','New','€34.99','12','€419',true],
+              ].map(([emoji, name, cat, badge, status, price, sold, rev, tier]) => `
+                <tr>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:12px">
+                      <div class="product-thumb">${emoji}</div>
+                      <span style="font-weight:600;font-size:13px">${name}</span>
+                    </div>
+                  </td>
+                  <td style="color:var(--text-muted);font-size:13px">${cat}</td>
+                  <td><span class="badge ${badge}">${status}</span></td>
+                  <td style="font-family:var(--font-display);font-weight:700">${price}</td>
+                  <td>
+                    <div style="font-size:13px;font-weight:600">${sold}</div>
+                    <div class="bar-mini"><div class="bar-mini-fill" style="width:${Math.min(parseInt(sold)/5,100)}%"></div></div>
+                  </td>
+                  <td style="font-family:var(--font-display);font-weight:700;color:var(--green)">${rev}</td>
+                  <td><div class="toggle-pill ${tier?'':'off'}"></div></td>
+                  <td><button class="btn btn-ghost" style="font-size:11px;padding:5px 10px">Edit</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── ADD MERCH WIZARD ── -->
+      <div id="page-add-merch" class="page">
+        <div style="margin-bottom:20px">
+          <div style="font-size:22px;font-family:var(--font-display);font-weight:800;letter-spacing:-0.02em;margin-bottom:4px">Add New Merch Drop</div>
+          <div style="font-size:13px;color:var(--text-muted)">Set up your product in a few steps</div>
+        </div>
+
+        <div class="wizard-layout">
+          <!-- Steps panel -->
+          <div class="wizard-steps-panel">
+            <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;margin-bottom:12px">Progress</div>
+            <div class="wizard-step-item active" id="ws-1">
+              <div class="step-num">1</div>
+              <div>
+                <div class="step-label">Choose type</div>
+                <div class="step-sub">POD or own inventory</div>
+              </div>
+            </div>
+            <div class="wizard-step-item" id="ws-2">
+              <div class="step-num">2</div>
+              <div>
+                <div class="step-label">Product details</div>
+                <div class="step-sub">Name, category, variants</div>
+              </div>
+            </div>
+            <div class="wizard-step-item" id="ws-3">
+              <div class="step-num">3</div>
+              <div>
+                <div class="step-label">Design & visuals</div>
+                <div class="step-sub">Upload artwork / photos</div>
+              </div>
+            </div>
+            <div class="wizard-step-item" id="ws-4">
+              <div class="step-num">4</div>
+              <div>
+                <div class="step-label">Pricing & tiers</div>
+                <div class="step-sub">Price, tier access, drops</div>
+              </div>
+            </div>
+            <div class="wizard-step-item" id="ws-5">
+              <div class="step-num">5</div>
+              <div>
+                <div class="step-label">Review & launch</div>
+                <div class="step-sub">Confirm and go live</div>
+              </div>
+            </div>
+
+            <div style="margin-top:20px;padding-top:16px;border-top:0.5px solid var(--border)">
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Fulfillment by</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600">
+                <span style="font-size:20px">📦</span> ShipBob POD
+                <span class="badge badge-green" style="margin-left:auto">Connected</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wizard panels -->
+          <div class="wizard-main" id="wizard-main">
+            <!-- Step 1 -->
+            <div id="wp-1" class="wizard-panel">
+              <div class="wizard-panel-title">How do you want to sell merch?</div>
+              <div class="wizard-panel-sub">Choose a fulfillment model — you can change this later per product.</div>
+              <div class="type-cards">
+                <div class="type-card selected" id="tc-pod" onclick="selectType('pod')">
+                  <div class="type-card-icon">🖨️</div>
+                  <div class="type-card-title">Design Only — Patreon handles it</div>
+                  <div class="type-card-desc">Upload your PNG or SVG design. We print, ship, and handle returns. Zero upfront cost, zero inventory risk.</div>
+                  <div class="type-tags">
+                    <span class="tag">Print-on-Demand</span>
+                    <span class="tag">Auto-fulfillment</span>
+                    <span class="tag">No upfront cost</span>
+                    <span class="tag">Returns handled</span>
+                  </div>
+                </div>
+                <div class="type-card" id="tc-own" onclick="selectType('own')">
+                  <div class="type-card-icon">📦</div>
+                  <div class="type-card-title">My Own Merch — I ship it</div>
+                  <div class="type-card-desc">Already have inventory? List it here, we handle checkout, payments, and order tracking. You manage fulfillment.</div>
+                  <div class="type-tags">
+                    <span class="tag">Own inventory</span>
+                    <span class="tag">Custom logistics</span>
+                    <span class="tag">Full control</span>
+                    <span class="tag">Higher margin</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="wp-2" class="wizard-panel">
+              <div class="wizard-panel-title">Product details</div>
+              <div class="wizard-panel-sub">Tell us what you're selling.</div>
+              <div class="form-grid">
+                <div class="form-group span2">
+                  <label class="form-label">Product name</label>
+                  <input class="form-input" placeholder="e.g. Summer Archive Tee" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Category</label>
+                  <select class="form-input">
+                    <option>Clothing — T-Shirt</option>
+                    <option>Clothing — Hoodie</option>
+                    <option>Accessories — Mug</option>
+                    <option>Accessories — Phone Case</option>
+                    <option>Stickers & Prints</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Material (optional)</label>
+                  <input class="form-input" placeholder="e.g. 100% organic cotton" />
+                </div>
+                <div class="form-group span2">
+                  <label class="form-label">Colors available</label>
+                  <div class="color-row">
+                    ${['#1a1a2e','#2d2d2d','#f5f5f5','#9333ea','#22c55e','#f59e0b','#ef4444','#3b82f6'].map((c,i)=>
+                      `<div class="color-dot${i<2?' selected':''}" style="background:${c}" onclick="this.classList.toggle('selected')"></div>`
+                    ).join('')}
+                  </div>
+                </div>
+                <div class="form-group span2">
+                  <label class="form-label">Available sizes</label>
+                  <div class="size-row">
+                    ${['XS','S','M','L','XL','XXL','3XL'].map((s,i)=>
+                      `<div class="size-chip${i>0&&i<6?' selected':''}" onclick="this.classList.toggle('selected')">${s}</div>`
+                    ).join('')}
+                  </div>
+                </div>
+                <div class="form-group span2">
+                  <label class="form-label">Short description</label>
+                  <textarea class="form-input" placeholder="Describe your product to fans..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="wp-3" class="wizard-panel">
+              <div class="wizard-panel-title">Design & visuals</div>
+              <div class="wizard-panel-sub">Upload your artwork — we generate a 3D preview automatically.</div>
+              <div style="display:grid;grid-template-columns:1fr 240px;gap:20px">
+                <div>
+                  <div class="upload-zone">
+                    <div class="upload-icon">🖼️</div>
+                    <div class="upload-text">Drop your design file here</div>
+                    <div class="upload-hint" style="margin-bottom:14px">PNG, SVG — min 300 DPI, transparent background</div>
+                    <button class="btn btn-ghost" style="font-size:12px">Browse files</button>
+                  </div>
+                  <div style="margin-top:14px">
+                    <label class="form-label">Placement</label>
+                    <div class="size-row">
+                      ${['Front Center','Back Center','Left Chest','Sleeve'].map((p,i)=>
+                        `<div class="size-chip${i===0?' selected':''}" onclick="document.querySelectorAll('#wp-3 .size-row .size-chip').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">${p}</div>`
+                      ).join('')}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="preview-box">
+                    <div class="preview-mockup">👕</div>
+                    <div style="font-size:11px;font-weight:600;color:var(--purple-light);margin-bottom:4px">✦ AI Placement Preview</div>
+                    <div class="preview-label">Upload design to see 3D preview</div>
+                  </div>
+                  <div style="margin-top:10px;background:var(--purple-dim);border:0.5px solid rgba(147,51,234,0.25);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:rgba(192,132,252,0.8)">
+                    ✦ Merch Studio can generate design variations with AI if you need inspiration.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div id="wp-4" class="wizard-panel">
+              <div class="wizard-panel-title">Pricing & tier access</div>
+              <div class="wizard-panel-sub">Set your price and who can buy it.</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                <div>
+                  <div class="form-group">
+                    <label class="form-label">Price (€)</label>
+                    <input class="form-input" type="number" placeholder="34.99" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Compare-at price (optional)</label>
+                    <input class="form-input" type="number" placeholder="49.99 (shows as crossed out)" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Your estimated margin</label>
+                    <div style="background:var(--surface2);border:0.5px solid var(--border2);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:var(--green);font-weight:700">≈ €18.50 per unit</div>
+                  </div>
+                </div>
+                <div>
+                  <label class="form-label" style="margin-bottom:10px">Tier access</label>
+                  <div class="tier-grid">
+                    <div class="tier-option" onclick="selectTier(this)">
+                      <div class="tier-dot" style="background:var(--green)"></div>
+                      <div class="tier-name">Open to all</div>
+                      <div class="tier-price">No restriction</div>
+                      <div class="tier-radio"></div>
+                    </div>
+                    <div class="tier-option selected" onclick="selectTier(this)">
+                      <div class="tier-dot" style="background:var(--purple)"></div>
+                      <div class="tier-name">Tier 2+</div>
+                      <div class="tier-price">€10/mo+</div>
+                      <div class="tier-radio"></div>
+                    </div>
+                    <div class="tier-option" onclick="selectTier(this)">
+                      <div class="tier-dot" style="background:var(--amber)"></div>
+                      <div class="tier-name">Tier 3 exclusive</div>
+                      <div class="tier-price">€25/mo</div>
+                      <div class="tier-radio"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:20px;border-top:0.5px solid var(--border);padding-top:20px">
+                <label class="form-label" style="margin-bottom:12px">Drop settings</label>
+                <div class="switch-row">
+                  <div class="switch-info">
+                    <div class="switch-title">Limited Edition Drop</div>
+                    <div class="switch-desc">Set max quantity and time window to create scarcity</div>
+                  </div>
+                  <div class="big-toggle" id="drop-toggle" onclick="toggleDrop()"></div>
+                </div>
+                <div id="drop-fields" style="display:none;margin-top:12px">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div>
+                      <label class="form-label">Max units</label>
+                      <input class="form-input" placeholder="200" type="number" />
+                    </div>
+                    <div>
+                      <label class="form-label">Duration</label>
+                      <select class="form-input">
+                        <option>48 hours</option>
+                        <option>7 days</option>
+                        <option>30 days</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="switch-row" style="margin-top:8px">
+                  <div class="switch-info">
+                    <div class="switch-title">Bundle with subscription</div>
+                    <div class="switch-desc">Offer merch + annual plan at a discount</div>
+                  </div>
+                  <div class="big-toggle" id="bundle-toggle" onclick="this.classList.toggle('on')"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div id="wp-5" class="wizard-panel">
+              <div class="wizard-panel-title">Review & launch</div>
+              <div class="wizard-panel-sub">Everything looks good? Hit launch to go live.</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                <div>
+                  <div style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">Product summary</div>
+                  <table class="review-table">
+                    <tr><td class="lbl">Product name</td><td>New Merch Drop</td></tr>
+                    <tr><td class="lbl">Category</td><td>Clothing — T-Shirt</td></tr>
+                    <tr><td class="lbl">Fulfillment</td><td>Print-on-Demand (ShipBob)</td></tr>
+                    <tr><td class="lbl">Colors</td><td>Black, White, Purple</td></tr>
+                    <tr><td class="lbl">Sizes</td><td>S, M, L, XL, XXL</td></tr>
+                    <tr><td class="lbl">Price</td><td style="color:var(--purple-light);font-family:var(--font-display)">€34.99</td></tr>
+                    <tr><td class="lbl">Tier access</td><td>Tier 2+</td></tr>
+                    <tr><td class="lbl">Drop type</td><td>Open (no limit)</td></tr>
+                    <tr><td class="lbl">Your margin</td><td style="color:var(--green)">≈ €18.50/unit</td></tr>
+                    <tr><td class="lbl">Status after launch</td><td style="color:var(--green)">✓ Live immediately</td></tr>
+                  </table>
+                </div>
+                <div>
+                  <div style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">What happens next</div>
+                  ${[
+                    ['📨','Fan gets notified','Email + push to all Tier 2+ members'],
+                    ['🖨️','Order triggers print','ShipBob prints per order — no inventory held'],
+                    ['📦','Auto-shipped','Tracking info sent to fan automatically'],
+                    ['💸','You get paid','Revenue hits your balance on next payout'],
+                  ].map(([icon,title,desc])=>`
+                    <div style="display:flex;gap:12px;margin-bottom:14px">
+                      <span style="font-size:22px;flex-shrink:0">${icon}</span>
+                      <div>
+                        <div style="font-size:13px;font-weight:600;margin-bottom:2px">${title}</div>
+                        <div style="font-size:12px;color:var(--text-muted)">${desc}</div>
+                      </div>
+                    </div>
+                  `).join('')}
+                  <div style="background:var(--green-dim);border:0.5px solid rgba(34,197,94,0.25);border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;color:var(--green);display:flex;gap:8px;align-items:flex-start;margin-top:4px">
+                    <span style="flex-shrink:0">✅</span> Patreon handles printing, packing, shipping, and returns — you just create.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button class="btn btn-ghost" onclick="nav('dashboard')">Cancel</button>
+              <button class="btn btn-primary" onclick="nav('success')">
+                <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+                Launch Drop 🚀
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ORDERS ── -->
+      <div id="page-orders" class="page">
+        <div class="orders-tabs">
+          <div class="orders-tab active">All Orders (347)</div>
+          <div class="orders-tab">Processing (12)</div>
+          <div class="orders-tab">Shipped (186)</div>
+          <div class="orders-tab">Delivered (143)</div>
+          <div class="orders-tab">Returns (6)</div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="live-pip"></div>
+              <div class="card-title">Summer Exclusive Drop</div>
+              <span class="badge badge-amber">Tier 3+</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px">
+              <div>
+                <span style="font-size:12px;color:var(--text-muted)">Closes in </span>
+                <span style="font-family:var(--font-display);font-weight:700;color:var(--amber)" id="drop-timer2">11:42:07</span>
+              </div>
+              <div style="width:140px">
+                <div class="drop-progress"><div class="drop-fill" style="width:67%"></div></div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px">134 / 200 units sold</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Member</th>
+                <th>Product</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Tracking</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[
+                ['#ORD-4821','Anna K. · Tier 3','Midnight Hoodie M/Black','€59.99','badge-amber','Processing',2,'May 16'],
+                ['#ORD-4820','Marco D. · Tier 2','Archive Sticker Pack x2','€25.98','badge-blue','Shipped',3,'May 15'],
+                ['#ORD-4819','Sophie L. · Tier 3','Midnight Hoodie L/White','€59.99','badge-green','Delivered',4,'May 14'],
+                ['#ORD-4818','Jan K. · Tier 1','Logo Mug','€24.99','badge-green','Delivered',4,'May 13'],
+                ['#ORD-4817','Wei X. · Tier 2','Archive Sticker Pack','€12.99','badge-amber','Processing',1,'May 13'],
+              ].map(([id,member,product,amount,badgeClass,status,trackStep,date])=>`
+                <tr>
+                  <td style="font-family:var(--font-display);font-weight:700;font-size:13px">${id}</td>
+                  <td style="font-size:13px">${member}</td>
+                  <td style="font-size:13px">${product}</td>
+                  <td style="font-family:var(--font-display);font-weight:700">${amount}</td>
+                  <td><span class="badge ${badgeClass}">${status}</span></td>
+                  <td>
+                    <div class="tracking-steps">
+                      ${[1,2,3,4].map((s,i)=>`
+                        ${i>0?`<div class="track-line${s<=trackStep?' done':''}"></div>`:''}
+                        <div class="track-dot${s<trackStep?' done':s===trackStep?' current':''}"></div>
+                      `).join('')}
+                    </div>
+                    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">${['Ordered','Confirmed','Printing','Shipped'][Math.min(trackStep-1,3)]}</div>
+                  </td>
+                  <td style="font-size:12px;color:var(--text-muted)">${date}</td>
+                  <td><button class="btn btn-ghost" style="font-size:11px;padding:5px 10px">Details</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── INSIGHTS ── -->
+      <div id="page-insights" class="page">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+          <div class="chip-group">
+            <div class="chip active">This month</div>
+            <div class="chip">Last 30 days</div>
+            <div class="chip">All time</div>
+          </div>
+        </div>
+
+        <div class="insights-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total GMV</div>
+            <div class="kpi-value" style="color:var(--green)">€18,420</div>
+            <div class="kpi-sub up">+24% vs last month</div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" style="width:74%;background:var(--green)"></div></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Orders</div>
+            <div class="kpi-value">347</div>
+            <div class="kpi-sub up">↑ 38 new today</div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" style="width:60%"></div></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Avg. Order Value</div>
+            <div class="kpi-value">€53.08</div>
+            <div class="kpi-sub up">+€8 vs avg</div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" style="width:53%"></div></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Return Rate</div>
+            <div class="kpi-value" style="color:var(--green)">1.4%</div>
+            <div class="kpi-sub" style="color:var(--green)">Industry avg: 8%</div>
+            <div class="kpi-bar"><div class="kpi-bar-fill" style="width:14%;background:var(--green)"></div></div>
+          </div>
+        </div>
+
+        <div class="insights-row">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Top Products</div>
+              <span class="badge badge-purple">May 2026</span>
+            </div>
+            <div class="top-list">
+              ${[
+                ['🧥','Midnight Hoodie','312 sold','€18,716'],
+                ['🎨','Archive Sticker Pack','489 sold','€6,352'],
+                ['☕','Logo Mug','89 sold','€2,224'],
+                ['📔','Notebook A5','54 sold','€1,025'],
+                ['👕','Sunset Tee','12 sold','€419'],
+              ].map(([emoji,name,units,rev],i)=>`
+                <div class="top-row">
+                  <div class="top-rank">#${i+1}</div>
+                  <div class="top-thumb">${emoji}</div>
+                  <div>
+                    <div class="top-name">${name}</div>
+                    <div class="top-units">${units}</div>
+                  </div>
+                  <div class="top-rev">${rev}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Revenue by Tier</div>
+            </div>
+            <div class="bar-chart">
+              ${[
+                ['Tier 3','€9,200',85,'var(--purple)'],
+                ['Tier 2','€5,800',55,'var(--blue)'],
+                ['Tier 1','€3,420',30,'rgba(147,51,234,0.45)'],
+                ['Open store','€1,900',18,'rgba(147,51,234,0.25)'],
+              ].map(([label,val,pct,color])=>`
+                <div class="bar-row">
+                  <div class="bar-label">${label}</div>
+                  <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
+                  <div class="bar-val">${val}</div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="card-header" style="margin-top:8px">
+              <div class="card-title">Member conversion</div>
+            </div>
+            <div style="padding:16px 20px">
+              <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
+                <span style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--purple-light)">23.7%</span>
+                <span style="font-size:13px;color:var(--text-muted)">of active members bought merch</span>
+              </div>
+              <div style="height:10px;background:var(--surface3);border-radius:5px;overflow:hidden">
+                <div style="width:23.7%;height:100%;background:var(--purple);border-radius:5px"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:5px">
+                <span>0%</span><span>17.6M total members</span><span>100%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUCCESS ── -->
+      <div id="page-success" class="page">
+        <div class="card">
+          <div class="success-wrap">
+            <div class="success-check">✓</div>
+            <div class="success-title">Your drop is live! 🎉</div>
+            <div class="success-desc">Patreon is handling printing and shipping automatically. Your fans can now order.</div>
+            <div class="success-card">
+              <div class="success-row"><span class="lbl">Product</span><span style="font-weight:600">New Merch Drop</span></div>
+              <div class="success-row"><span class="lbl">Fulfillment</span><span style="font-weight:600">POD via ShipBob</span></div>
+              <div class="success-row"><span class="lbl">Tier access</span><span style="font-weight:600">Tier 2+</span></div>
+              <div class="success-row"><span class="lbl">Price</span><span style="font-weight:600;color:var(--purple-light)">€34.99</span></div>
+              <div class="success-row"><span class="lbl">Status</span><span style="color:var(--green);font-weight:600">✓ Live</span></div>
+              <div class="success-row"><span class="lbl">Notified</span><span style="font-weight:600">4,821 Tier 2+ members</span></div>
+            </div>
+            <div style="display:flex;gap:12px">
+              <button class="btn btn-primary" onclick="nav('dashboard')">Back to Studio</button>
+              <button class="btn btn-ghost" onclick="nav('orders')">View Orders</button>
+              <button class="btn btn-ghost" onclick="nav('add-merch')">Add another drop</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+const pages = ['dashboard','products','add-merch','orders','insights','success'];
+const titles = {
+  'dashboard': ['Creator Studio', ''],
+  'products': ['Products', '/ All items'],
+  'add-merch': ['Add Merch Drop', '/ New product'],
+  'orders': ['Orders', '/ Fulfillment Hub'],
+  'insights': ['Insights', '/ Merch Analytics'],
+  'success': ['Drop Launched!', ''],
+};
+
+function nav(page) {
+  pages.forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.classList.toggle('active', p === page);
+    const n = document.getElementById('nav-' + p);
+    if (n) n.classList.toggle('active', p === page);
+  });
+  const t = titles[page] || [page, ''];
+  document.getElementById('page-title').textContent = t[0];
+  document.getElementById('page-crumb').textContent = t[1];
+  document.querySelector('.content').scrollTop = 0;
+}
+
+function selectType(type) {
+  document.getElementById('tc-pod').classList.toggle('selected', type === 'pod');
+  document.getElementById('tc-own').classList.toggle('selected', type === 'own');
+}
+
+function selectTier(el) {
+  document.querySelectorAll('.tier-option').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleDrop() {
+  const t = document.getElementById('drop-toggle');
+  const f = document.getElementById('drop-fields');
+  t.classList.toggle('on');
+  f.style.display = t.classList.contains('on') ? 'block' : 'none';
+}
+
+// Chips
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', () => {
+    const group = c.closest('.chip-group');
+    if (group) group.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+
+document.querySelectorAll('.orders-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.orders-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+// Drop timer
+function tick() {
+  ['drop-timer','drop-timer2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let [h,m,s] = el.textContent.split(':').map(Number);
+    if (--s < 0) { s = 59; if (--m < 0) { m = 59; h = Math.max(0, h-1); } }
+    el.textContent = [h,m,s].map(x => String(x).padStart(2,'0')).join(':');
+  });
+}
+setInterval(tick, 1000);
+
+// Filter chips
+document.querySelectorAll('.filter-pills .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pills .chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
