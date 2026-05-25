@@ -2223,6 +2223,11 @@ function switchMode(mode) {
     pageCrumb.textContent = '/ Shop';
     sidebarHandle.textContent = 'Patron';
     patronTab('shop');
+    // Reset compact header
+    const ph = document.getElementById('patron-header');
+    const pp = document.getElementById('patron-pages');
+    if (ph) ph.classList.remove('compact');
+    if (pp) pp.scrollTop = 0;
   } else {
     creatorContent.style.display = '';
     patronContent.style.display = 'none';
@@ -2375,19 +2380,8 @@ const patronPages = document.getElementById('patron-pages');
 const patronHeaderEl = document.getElementById('patron-header');
 
 patronPages.addEventListener('scroll', () => {
-  const scrolled = patronPages.scrollTop > 40;
-  patronHeaderEl.classList.toggle('compact', scrolled);
+  patronHeaderEl.classList.toggle('compact', patronPages.scrollTop > 40);
 }, { passive: true });
-
-// Reset compact header when patron mode activated
-const _origSwitchMode = switchMode;
-function switchMode(mode) {
-  _origSwitchMode(mode);
-  if (mode === 'patron') {
-    patronPages.scrollTop = 0;
-    patronHeaderEl.classList.remove('compact');
-  }
-}
 
 setInterval(tick, 1000);
 </script>
